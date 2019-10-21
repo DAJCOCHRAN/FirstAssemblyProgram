@@ -32,29 +32,25 @@ main:
      #--------------------------------------------------------
 
 	addi $s0, $zero, 0 #initialize i
-	
 	la $s1, arr #load array address
-	
 	lw $s2, size #load size
-	
-	 
-	
-	la $t1, nl #load address new Line
+	addi $t5, $zero, 4
+	jal LOOP
 	
 	
-	bgt $s0, $s2, LOOPEXIT #IF I > SIZE EXIT LOOP
-	
-		sll $t2, $s0, 2 #easy to multiply iterator by 4 for the base address and stored in t3 for iterator bytes I*4
-	
-		addu $t2, $t2, $s1 # t2 = array base address + iterator bytes
+	LOOP:
+		bgt $s0, $s2, LOOPEXIT #IF I > SIZE EXIT LOOP
+		mul $t2, $s0, $t5  #t2 = I*4
+		add $t2, $t2, $s1 # t2 = array base address + iterator bytes
 		#store next position to temp
-		
 		lw $s3, 4($t2) #temp =  arr[i + 1] 
 		lw $t7, 0($t2) #t7(arr[i])
 		sw $s3, 0($t2) #store temp into arr[i]
 		sw $t7, 4($t2) #arr[i+1] = t7(arr[i])
-		
 		addi $s0, $s0, 2 #add 2 to i
+		j LOOP
+		
+		
 	
 	
 	
